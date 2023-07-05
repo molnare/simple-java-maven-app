@@ -11,11 +11,9 @@ public class App {
     }
 
     public static void main(String[] args) {
-        try {
-            System.out.println(new App().getMessage());
-        } catch (Exception e) {
-            
-        }
+        System.out.println(new App().getMessage());
+        double d = 1.1;
+        BigDecimal bd1 = new BigDecimal(d);
     }
 
     private final String getMessage() {
