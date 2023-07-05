@@ -1,5 +1,7 @@
 package com.mycompany.app;
 
+import java.math.BigDecimal;
+
 /**
  * Hello world!!!
  */
