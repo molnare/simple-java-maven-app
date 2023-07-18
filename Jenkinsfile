@@ -16,6 +16,14 @@ pipeline {
     }
 
     stages {
+        stage('Set Version') {
+            steps {
+                script {
+                    def newVersion = BRANCH_NAME.replaceAll(/[^a-zA-Z0-9]/, '_')
+                    sh "mvn versions:set -DgenerateBackupPoms=false -DnewVersion=$newVersion"
+                }
+            }
+        }
         stage('Build') {
             steps {
                 sh "mvn -Dmaven.test.failure.ignore=true clean package"
