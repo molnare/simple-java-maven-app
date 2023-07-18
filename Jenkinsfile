@@ -1,5 +1,14 @@
+def agentLabel
+if (BRANCH_NAME == "master") {
+    agentLabel = "master"
+} else {
+    agentLabel = "worker"
+}
+
 pipeline {
-    agent any
+    agent {
+        label agentLabel
+    }
 
     tools {
           jdk 'OpenJDK-17.0.7-LTS-AArch46'
@@ -19,14 +28,34 @@ pipeline {
                 }
             }
         }
-
-        stage('SonarQube') {
-            steps {
-                withSonarQubeEnv('Calypso Binar SonarQube Server') {
-                    sh 'mvn sonar:sonar'
+        stage('Parallel Stages') {
+            parallel {
+                stage('SonarQube') {
+                    steps {
+                        withSonarQubeEnv('Calypso Binar SonarQube Server') {
+                            sh 'mvn sonar:sonar'
+                        }
+                    }
+                }
+                stage ('Docker build and run') {
+                    stages{
+                        stage('Docker build') {
+                            steps {
+                                sh "docker build . -t hello-world-spring"
+                            }
+                        }
+                        stage('Docker run') {
+                            when {
+                                branch "master"
+                            }
+                            steps {
+                                sh "docker stop hello-world-spring || true"
+                                sh "docker run -it -d --rm -p 8081:8080 --name hello-world-spring hello-world-spring"
+                            }
+                        }
+                    }
                 }
             }
         }
-        
     }
 }
