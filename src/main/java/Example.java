@@ -15,7 +15,7 @@ public class Example {
 
     @RequestMapping("/hello-world/date")
     String date() {
-        return new Date().toString();d
+        return new Date().toString();dd
     }
 
     public static void main(String[] args) {
