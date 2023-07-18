@@ -68,13 +68,8 @@ pipeline {
     }
     post {
         failure {
-            emailext (
-                subject: '$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!',
-                body: '''$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS:
-Check console output at $BUILD_URL to view the results.''',
-                recipientProviders: [developers(), requestor()],
-                to: env.PROJECT_RECIPIENTS
-            )
+            emailext body: '''$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS:
+Check console output at $BUILD_URL to view the results.''', recipientProviders: [recipientProviders: [developers(), requestor()],], to: env.PROJECT_RECIPIENTS, subject: '$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!'
         }
     }
 }
