@@ -18,6 +18,11 @@ public class Example {
         return new Date().toString();
     }
 
+    @RequestMapping("/hello-world/date2")
+    String date2() {
+        return new Date().toString();
+    }
+
     public static void main(String[] args) {
         SpringApplication.run(Example.class, args);
     }
